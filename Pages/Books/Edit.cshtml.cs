@@ -38,6 +38,11 @@ namespace Onetiu_Diana2_Lab2.Pages.Books
             Book = book;
             ViewData["PublisherID"] = new SelectList(_context.Set<Publisher>(), "ID",
 "PublisherName");
+            ViewData["AuthorID"] = new SelectList(_context.Author.Select(a => new {
+                ID = a.ID,
+                FullName = a.FirstName + " " + a.LastName
+            }), "ID", "FullName");
+
             return Page();
         }
 
