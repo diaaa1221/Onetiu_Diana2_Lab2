@@ -41,7 +41,15 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Book.PublishingDate)
         </dd>
-    </dl>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.BookCategories)
+        </dt>
+            @foreach (var category in Model.Book.BookCategories)
+            {
+                @category.Category.CategoryName
+            }
+         </dl>
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Book.ID">Edit</a> |
