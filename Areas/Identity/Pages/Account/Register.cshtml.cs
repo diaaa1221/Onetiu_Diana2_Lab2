@@ -116,8 +116,7 @@ _context;
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await
-           _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             var user = CreateUser();
 
@@ -133,16 +132,12 @@ _context;
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-               
+
+                var role = await _userManager.AddToRoleAsync(user, "User");
                 var userId = await _userManager.GetUserIdAsync(user);
-                var code = await
-               _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code =
-               WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-               pageHandler: null,
-               values: new
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var callbackUrl = Url.Page("/Account/ConfirmEmail",pageHandler: null,values: new
                {
                    area = "Identity",
                    userId = userId,
